@@ -87,33 +87,38 @@ fun NewsItem(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = news.title,
+                        text = news.title ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
-                        )
+                            fontSize = 18.sp
+                        ),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .weight(1f)
                     )
-                    Text(
-                        text = parseDate(news.publishedAt),
-                        style = TextStyle(
-                            fontSize = 24.sp,
+                    news.publishedAt?.let {
+                        Text(
+                            text = parseDate(news.publishedAt),
+                            style = TextStyle(
+                                fontSize = 18.sp,
                                 color = Color.Gray
+                            )
                         )
-                    )
+                    }
                 }
 
                 Text(
-                    text = news.author,
+                    text = news.author ?: "",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        fontSize = 14.sp
                     )
                 )
                 news.content?.let {
                     Text(
                         text = news.content,
                         style = TextStyle(
-                            fontSize = 16.sp,
+                            fontSize = 11.sp,
                             color = Color.Gray
                         ),
                         maxLines = 1,
@@ -122,7 +127,9 @@ fun NewsItem(
                 }
             }
             IconButton(onClick = {
-                onArrowClick(news.url)
+                news.url?.let {
+                    onArrowClick(news.url)
+                }
             }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,

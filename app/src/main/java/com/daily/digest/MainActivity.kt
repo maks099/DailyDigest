@@ -13,15 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.daily.digest.di.AppComponent
 import com.daily.digest.di.DaggerAppComponent
 import com.daily.digest.retrofit.NewsService
+import com.daily.digest.ui.screens.MainScreen
+import com.daily.digest.ui.screens.Routes
 import com.daily.digest.ui.theme.DailyDigestTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-const val DATA_LOG = "DATA_LOG"
 
 class MainActivity : ComponentActivity() {
 
@@ -30,20 +33,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             DailyDigestTheme {
-                Text(text = "test")
+               NavHost(navController = navController, startDestination = Routes.Main.route){
+                   composable(Routes.Main.route){ MainScreen() }
+               }
             }
-        }
-        getNews()
-    }
-
-    private fun getNews() {
-        (applicationContext as DailyDigestApp).component.inject(this)
-        lifecycleScope.launch(Dispatchers.Default) {
-
         }
     }
 }

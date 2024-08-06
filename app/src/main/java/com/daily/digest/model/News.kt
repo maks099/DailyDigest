@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class News(
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("content")
     val content: String?,
     @SerializedName("author")
-    val author: String,
+    val author: String?,
     @SerializedName("url")
-    val url: String,
+    val url: String?,
     @SerializedName("publishedAt")
-    val publishedAt: String,
+    val publishedAt: String?,
     @SerializedName("urlToImage")
     val urlToImage: String? = null
 )

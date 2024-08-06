@@ -86,4 +86,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
     implementation "com.github.skydoves:retrofit-adapters-result:1.0.11"
     implementation("io.coil-kt:coil-compose:2.7.0")
+
+    def nav_version = "2.7.7"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 }
