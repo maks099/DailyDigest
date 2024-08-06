@@ -2,4 +2,6 @@
     <string name="app_name">DailyDigest</string>
     <string name="news_api_key">05a2e915ab6148aa8bc5f10a89a90ed5</string>
     <string name="search">Search</string>
+    <string name="all_news">All news</string>
+    <string name="saved">Saved</string>
 </resources>

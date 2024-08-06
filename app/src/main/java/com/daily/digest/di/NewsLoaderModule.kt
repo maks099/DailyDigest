@@ -1,6 +1,10 @@
 package com.daily.digest.di
 
+import android.content.Context
+import androidx.room.Room
 import com.daily.digest.retrofit.NewsService
+import com.daily.digest.room.AppDatabase
+import com.daily.digest.room.NewsDao
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -11,7 +15,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 @Module
-class NewsLoaderModule {
+class NewsLoaderModule(private val appContext: Context) {
+
+    @Provides
+    fun provideContext() = appContext
 
     @Provides
     fun getNewsService(): NewsService {
@@ -27,5 +34,14 @@ class NewsLoaderModule {
             .build()
 
         return retrofit.create(NewsService::class.java)
+    }
+
+    @Provides
+    fun getNewsDao(): NewsDao {
+        val db = Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java, "database-name"
+        ).build()
+        return db.newsDao()
     }
 }

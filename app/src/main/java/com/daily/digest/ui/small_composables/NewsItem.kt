@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,12 +26,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
@@ -43,6 +47,8 @@ import com.daily.digest.model.News
 fun NewsItem(
     modifier: Modifier = Modifier,
     news: News,
+    isSaved: Boolean,
+    onBookmarkClick: () -> Unit,
     onArrowClick: (String) -> Unit
 ){
     Card(
@@ -126,19 +132,57 @@ fun NewsItem(
                     )
                 }
             }
-            IconButton(onClick = {
-                news.url?.let {
-                    onArrowClick(news.url)
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
+                SmallIcon(imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight) {
+                    news.url?.let {
+                        onArrowClick(news.url)
+                    }
                 }
-            }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                    contentDescription = null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(72.dp)
-                )
+                SmallIcon(
+                    painter = painterResource(
+                        id = if(isSaved) R.drawable.baseline_bookmark_24
+                             else R.drawable.baseline_bookmark_border_24
+                    )
+                ) {
+                    onBookmarkClick()
+                }
             }
+
         }
+    }
+}
+
+@Composable
+private fun SmallIcon(
+    imageVector: ImageVector,
+    onClick: () -> Unit
+){
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = null,
+            tint = Color.Gray,
+            modifier = Modifier.size(72.dp)
+        )
+    }
+}
+
+@Composable
+private fun SmallIcon(
+    painter: Painter,
+    onClick: () -> Unit,
+){
+    IconButton(onClick = onClick) {
+        Icon(
+            painter = painter,
+            contentDescription = null,
+            tint = Color.Black,
+            modifier = Modifier.size(48.dp)
+        )
     }
 }
 

@@ -1,8 +1,13 @@
 package com.daily.digest.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class News(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @SerializedName("title")
     val title: String?,
     @SerializedName("content")
