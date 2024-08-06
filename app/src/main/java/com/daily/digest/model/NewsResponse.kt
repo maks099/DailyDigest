@@ -1,3 +1,8 @@
 package com.daily.digest.model
 
-data class NewsResponse()
+import com.google.gson.annotations.SerializedName
+
+data class NewsResponse(
+    @SerializedName("articles")
+    val articles: List<News>,
+)

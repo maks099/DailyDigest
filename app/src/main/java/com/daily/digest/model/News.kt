@@ -1,8 +1,18 @@
-package com.daily.digest
+package com.daily.digest.model
+
+import com.google.gson.annotations.SerializedName
 
 data class News(
-    val id: Int,
+    @SerializedName("title")
     val title: String,
-    val content: String,
-    val imageUrl: String
+    @SerializedName("content")
+    val content: String?,
+    @SerializedName("author")
+    val author: String,
+    @SerializedName("url")
+    val url: String,
+    @SerializedName("publishedAt")
+    val publishedAt: String,
+    @SerializedName("urlToImage")
+    val urlToImage: String? = null
 )
