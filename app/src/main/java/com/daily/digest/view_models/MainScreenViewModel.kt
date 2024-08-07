@@ -1,6 +1,7 @@
 package com.daily.digest.view_models
 
 import android.os.Bundle
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,12 @@ class MainScreenViewModel(
 
     private val _search = MutableStateFlow("")
     val search = _search.asStateFlow()
+
+    private val _error = MutableStateFlow("")
+    val error = _error.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
 
     private var _newsListSource = emptyList<News>()
     private val _newsList = MutableStateFlow(emptyList<News>())
@@ -69,12 +76,17 @@ class MainScreenViewModel(
         }
     }
 
-    private suspend fun getNewsFromAPI() = withContext(Dispatchers.Default){
+    suspend fun getNewsFromAPI() = withContext(Dispatchers.Default){
+        _isLoading.value = true
         newsService.getNews()
             .onFailure { e ->
-
+                _isLoading.value = false
+                e.message?.let { message ->
+                    _error.tryEmit(message)
+                }
             }
             .onSuccess { data ->
+                _isLoading.value = false
                 if(data != null){
                     _newsListSource = data.articles
                     _newsList.tryEmit(data.articles)

@@ -1,10 +1,14 @@
 package com.daily.digest
 
+import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -38,10 +42,18 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             DailyDigestTheme {
                NavHost(navController = navController, startDestination = Routes.Main.route){
-                   composable(Routes.Main.route){ MainScreen() }
+                   composable(Routes.Main.route){
+                       this@MainActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                       MainScreen()
+                   }
                }
             }
         }
     }
 }
 
+fun Context.toast(message: String) {
+    if(message.isNotEmpty()){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+}
